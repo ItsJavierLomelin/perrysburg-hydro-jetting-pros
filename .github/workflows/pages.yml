@@ -1,4 +1,4 @@
-name: Deploy preview to GitHub Pages
+name: Build Astro preview
 on:
   push:
     branches: [main]
@@ -18,10 +18,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: tar -xzf 2-site-source.tar.gz
       - run: npm ci
       - run: npm run build
         env:
-          BASE: /kettering-hydro-site-template
+          BASE: /${{ github.event.repository.name }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
